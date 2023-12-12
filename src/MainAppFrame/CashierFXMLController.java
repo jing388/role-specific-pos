@@ -97,6 +97,12 @@ public class CashierFXMLController implements Initializable, ControllerInterface
     private TableColumn<ItemData, Integer> columnItemQuantity;
 
     @FXML
+    private TableColumn<ItemData, Double> columnAddOn;
+
+    @FXML
+    private TableColumn<ItemData, Double> columnPrice;
+
+    @FXML
     private TableView<ItemData> receiptTable;
 
     @FXML
@@ -835,19 +841,19 @@ public class CashierFXMLController implements Initializable, ControllerInterface
         }
 
         // For milk_tea
-        String combinedSql = "SELECT order_id, size, item_name, add_ons, final_price, quantity, date_time FROM milk_tea WHERE customer_id = ? "
+        String combinedSql = "SELECT order_id, size, item_name, '' AS price, size_price, add_ons, addons_price, final_price, quantity, date_time FROM milk_tea WHERE customer_id = ? "
                 + "UNION "
-                + "SELECT order_id, size, item_name, '' AS add_ons, final_price, quantity, date_time FROM fruit_drink WHERE customer_id = ? "
+                + "SELECT order_id, size, item_name, '' AS price, size_price, '' AS add_ons, '' AS addons_price, final_price, quantity, date_time FROM fruit_drink WHERE customer_id = ? "
                 + "UNION "
-                + "SELECT order_id, size, item_name, '' AS add_ons, final_price, quantity, date_time FROM frappe WHERE customer_id = ? "
+                + "SELECT order_id, size, item_name, '' AS price, size_price, '' AS add_ons, '' AS addons_price, final_price, quantity, date_time FROM frappe WHERE customer_id = ? "
                 + "UNION "
-                + "SELECT order_id, size, item_name, '' AS add_ons, final_price, quantity, date_time FROM coffee WHERE customer_id = ? "
+                + "SELECT order_id, size, item_name, '' AS price, size_price, '' AS add_ons, '' AS addons_price, final_price, quantity, date_time FROM coffee WHERE customer_id = ? "
                 + "UNION "
-                + "SELECT order_id, '' AS size, item_name, '' AS add_ons, final_price, quantity, date_time FROM rice_meal WHERE customer_id = ? "
+                + "SELECT order_id, '' AS size, item_name, price, '' AS size_price, '' AS add_ons, '' AS addons_price, final_price, quantity, date_time FROM rice_meal WHERE customer_id = ? "
                 + "UNION "
-                + "SELECT order_id, '' AS size, item_name, '' AS add_ons, final_price, quantity, date_time FROM snacks WHERE customer_id = ? "
+                + "SELECT order_id, '' AS size, item_name, price, '' AS size_price, '' AS add_ons, '' AS addons_price, final_price, quantity, date_time FROM snacks WHERE customer_id = ? "
                 + "UNION "
-                + "SELECT order_id, '' AS size, item_name, '' AS add_ons, final_price, quantity, date_time FROM extras WHERE customer_id = ? "
+                + "SELECT order_id, '' AS size, item_name, price, '' AS size_price, '' AS add_ons, '' AS addons_price, final_price, quantity, date_time FROM extras WHERE customer_id = ? "
                 + "ORDER BY date_time Asc";
 
         try (Connection connect = database.getConnection(); PreparedStatement combinedPrepare = connect.prepareStatement(combinedSql)) {
@@ -865,10 +871,13 @@ public class CashierFXMLController implements Initializable, ControllerInterface
                 int orderID = combinedResult.getInt("order_id");
                 String size = combinedResult.getString("size");
                 String itemName = size.trim().isEmpty() ? combinedResult.getString("item_name") : combineWithAddons(size, combinedResult.getString("item_name"), combinedResult.getString("add_ons"));
+                double price = combinedResult.getDouble("price");
+                double itemSizePrice = combinedResult.getDouble("size_price");
+                double addOnPrice = combinedResult.getDouble("addons_price");
                 double itemPrice = combinedResult.getDouble("final_price");
                 int itemQuantity = combinedResult.getInt("quantity");
 
-                ItemData item = new ItemData(orderID, itemName, itemPrice, itemQuantity);
+                ItemData item = new ItemData(orderID, itemName, price, itemPrice, itemSizePrice, addOnPrice, itemQuantity);
                 listData.add(item);
 
             }
@@ -899,6 +908,8 @@ public class CashierFXMLController implements Initializable, ControllerInterface
         columnItemName.setCellValueFactory(f -> new SimpleStringProperty(f.getValue().getItemName()));
         columnItemPrice.setCellValueFactory(f -> new SimpleDoubleProperty(f.getValue().getItemPrice()).asObject());
         columnItemQuantity.setCellValueFactory(f -> new SimpleIntegerProperty(f.getValue().getItemQuantity()).asObject());
+        columnAddOn.setCellValueFactory(f -> new SimpleDoubleProperty(f.getValue().getAddOnPrice()).asObject());
+        columnPrice.setCellValueFactory(f -> new SimpleDoubleProperty(f.getValue().getDisplayPrice()).asObject());
 
         // Bind the TableView to the combined ObservableList
         receiptTable.setItems(menuMilkteaAndFrappeListData);
@@ -980,7 +991,7 @@ public class CashierFXMLController implements Initializable, ControllerInterface
 
             // Iterate through unique order IDs and delete items
             for (int orderID : orderIDs) {
-                ItemData dummyItem = new ItemData(orderID, "", 0.0, 0);
+                ItemData dummyItem = new ItemData(orderID, "",0, 0.0, 0, 0, 0);
                 deleteItem(dummyItem);
             }
 

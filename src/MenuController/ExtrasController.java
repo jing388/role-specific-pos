@@ -38,7 +38,7 @@ public class ExtrasController {
 
     @FXML
     private Button confirmButton1;
-    
+
     @FXML
     private Label StatusLbl;
 
@@ -71,21 +71,19 @@ public class ExtrasController {
         spinnerQuantity.getValueFactory().setConverter(converter);
 
     }
-    
-    
+
     public void setExtrasItemData(ExtrasItemData extrasItemData) throws SQLException {
         // Set data to components
         this.extrasItemData = extrasItemData;
-          
 
         // Assuming you have a method in MilkteaItemData to get the image name or title
         String itemName = extrasItemData.getItemName();
-         String status = extrasItemData.getStatus();
+        String status = extrasItemData.getStatus();
         Integer price = extrasItemData.getPrice();
 
         // Set data to corresponding components
         foodLabel.setText(itemName);
-         StatusLbl.setText( status);
+        StatusLbl.setText(status);
 
 
         /* para doon sa image */
@@ -101,13 +99,15 @@ public class ExtrasController {
 
         try (Connection conn = database.getConnection()) {
             if (conn != null) {
-                String sql = "INSERT INTO extras (customer_id, date_time, item_name, quantity,ask_me,price,final_price) VALUES (?, NOW(), ?, ?, ?, ?,?)";
+                String sql = "INSERT INTO extras(customer_id, date_time, item_name, quantity, ask_me, price, final_price) VALUES (?, NOW(), ?, ?, ?, ?, ?)";
                 try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                     stmt.setInt(1, customer_id);
                     stmt.setString(2, menuName);
                     stmt.setInt(3, selectedQuantity);
                     stmt.setBoolean(4, askmeRadioSelected);
-                    int price = calculatePrice();
+
+                    // Use the price variable for the price in the database
+                    int price = calculateOriginalPrice();
                     stmt.setInt(5, price);
 
                     // Calculate the final price based on selected size and add-ons
@@ -149,17 +149,17 @@ public class ExtrasController {
                 } else {
                     System.out.println("Cashier controller not available.");
                 }
-                
-                 String status = StatusLbl.getText(); 
-            if ("Out Of Stock".equals(status)) {
-                
-                Alert outOfStockAlert = new Alert(Alert.AlertType.ERROR);
-                outOfStockAlert.setTitle("Out of Stock");
-                outOfStockAlert.setHeaderText(null);
-                outOfStockAlert.setContentText("Sorry, the selected product is out of stock.");
-                outOfStockAlert.showAndWait();
-                return;
-            }
+
+                String status = StatusLbl.getText();
+                if ("Out Of Stock".equals(status)) {
+
+                    Alert outOfStockAlert = new Alert(Alert.AlertType.ERROR);
+                    outOfStockAlert.setTitle("Out of Stock");
+                    outOfStockAlert.setHeaderText(null);
+                    outOfStockAlert.setContentText("Sorry, the selected product is out of stock.");
+                    outOfStockAlert.showAndWait();
+                    return;
+                }
 
                 // Move insertOrderToDatabase inside the else block to ensure customer_id is properly assigned
                 insertOrderToDatabase(customer_id, menuName, selectedQuantity, askmeRadioSelected);
@@ -184,6 +184,13 @@ public class ExtrasController {
 
     }
 
+    private int calculateOriginalPrice() {
+        if (extrasItemData != null) {
+            return extrasItemData.getPrice();
+        }
+        return 0; // or handle the error as needed
+    }
+
     private int calculatePrice() {
         if (extrasItemData != null) {
             Integer selectedQuantity = (Integer) spinnerQuantity.getValue();
@@ -193,10 +200,10 @@ public class ExtrasController {
                 return 0; // or handle the error as needed
             }
 
-            int price = extrasItemData.getPrice();
+            int originalPrice = calculateOriginalPrice();
 
             // Calculate the final price based on the selected quantity
-            int finalPrice = price * selectedQuantity;
+            int finalPrice = originalPrice * selectedQuantity;
 
             return finalPrice;
         }

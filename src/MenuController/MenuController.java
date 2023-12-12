@@ -132,7 +132,7 @@ public class MenuController {
     private void insertOrderToDatabase(int customer_id, String menuName, int selectedQuantity, String selectedSize, String selectedAddon, String selectedSugarLevel, boolean askmeRadioSelected) {
         try (Connection conn = database.getConnection()) {
             if (conn != null) {
-                String sql = "INSERT INTO milk_tea (customer_id, date_time, item_name, quantity, size, add_ons, sugar_level, ask_me,addons_price , size_price, final_price) VALUES (?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO milk_tea (customer_id, date_time, item_name, quantity, size, add_ons, sugar_level, ask_me, size_price, addons_price, final_price) VALUES (?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                     stmt.setInt(1, customer_id);
                     stmt.setString(2, menuName);

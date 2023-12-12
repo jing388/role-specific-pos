@@ -78,9 +78,11 @@
                      <children>
                         <TableView fx:id="receiptTV" layoutX="14.0" layoutY="129.0" prefHeight="260.0" prefWidth="336.0" style="-fx-background-color: transparent;">
                            <columns>
-                              <TableColumn fx:id="receiptProduct" prefWidth="166.40000915527344" text="Product" />
-                              <TableColumn fx:id="receiptQuantity" prefWidth="72.79998779296875" text="Quantity" />
-                              <TableColumn fx:id="receiptPrice" prefWidth="96.0" text="Price" />
+                              <TableColumn fx:id="receiptQuantity" prefWidth="23.999969482421875" />
+                              <TableColumn fx:id="receiptProduct" prefWidth="136.00001525878906" text="Product" />
+                              <TableColumn fx:id="receiptPrice" prefWidth="47.199951171875" text="Price" />
+                              <TableColumn prefWidth="56.800048828125" text="Add-On" />
+                              <TableColumn prefWidth="66.4000244140625" text="Total" />
                            </columns>
                         </TableView>
                         <Label layoutX="17.0" layoutY="108.0" text="Cashier Handler:">

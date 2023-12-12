@@ -104,7 +104,7 @@ public class CashierConfirmationFXMLController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        receiptTV2.setStyle("-fx-table-cell-border-color: transparent; -fx-table-header-border-color: transparent;");
+        receiptTV2.setStyle("-fx-font-family: 'Monospaced';");
 
         System.out.println("CashierConfirmationFXMLController initialized");
         try {
@@ -147,14 +147,17 @@ public class CashierConfirmationFXMLController implements Initializable {
                                     int orderId = orderRs.getInt("order_id");
                                     String productName = orderRs.getString("item_name");
                                     double finalPrice = orderRs.getDouble("final_price");
+                                    double addonsPrice = orderRs.getDouble("addons_price");
                                     int quantity = orderRs.getInt("quantity");
+                                    double itemSizePrice = orderRs.getDouble("sizePrice");
+                                    double price = orderRs.getDouble("price");
 
                                     // Check if size and add_ons columns are available
                                     String size = orderRs.getString("size") != null ? orderRs.getString("size") : "";
                                     String addons = orderRs.getString("add_ons") != null ? orderRs.getString("add_ons") : "";
 
                                     // Create an ItemData instance with the fetched data
-                                    ItemData itemData = new ItemData(orderId, combineWithAddons(size, productName, addons), finalPrice, quantity);
+                                    ItemData itemData = new ItemData(orderId, combineWithAddons(size, productName, addons), price, finalPrice, itemSizePrice, addonsPrice, quantity);
 
                                     // Add the ItemData to the list
                                     orderDetailsList.add(itemData);

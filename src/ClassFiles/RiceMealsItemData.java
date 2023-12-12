@@ -8,7 +8,6 @@ import java.sql.Blob;
 
 import java.io.InputStream;
 
-
 public class RiceMealsItemData {
 
     private String itemName;
@@ -16,9 +15,9 @@ public class RiceMealsItemData {
     private Blob image;
     private Integer itemID;
     private InputStream imageInputStream;
-        private String status;
-    
-     public RiceMealsItemData(String itemName, Integer price, Blob image, Integer itemID, String status) {
+    private String status;
+
+    public RiceMealsItemData(String itemName, Integer price, Blob image, Integer itemID, String status) {
         this.itemName = itemName;
         this.price = price;
         this.image = image;
@@ -31,9 +30,7 @@ public class RiceMealsItemData {
         this.price = price;
 
     }
-    
-    
-   
+
     public String getItemName() {
         return itemName;
     }
@@ -65,19 +62,22 @@ public class RiceMealsItemData {
     public void setItemID(Integer itemID) {
         this.itemID = itemID;
     }
-    
+
     public InputStream getImageInputStream() {
         return imageInputStream;
     }
-     public void setImageInputStream(InputStream imageInputStream) {
+
+    public void setImageInputStream(InputStream imageInputStream) {
         this.imageInputStream = imageInputStream;
     }
-     public String getStatus() {
+
+    public String getStatus() {
         return status;
     }
-         public void setStatus (String status){
-             this.status= status;
-             
-}
-    
+
+    public void setStatus(String status) {
+        this.status = status;
+
+    }
+
 }

@@ -4,6 +4,11 @@
  */
 package MainAppFrame;
 
+import javafx.print.Paper;
+import javafx.print.PageLayout;
+import javafx.print.PageOrientation;
+import javafx.print.Printer;
+import javafx.print.PrinterJob;
 import java.sql.Date;
 import ClassFiles.CoffeeItemData;
 import java.sql.Connection;
@@ -46,6 +51,9 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.print.PageLayout;
+import javafx.print.PageOrientation;
+import javafx.print.Printer;
 import javafx.print.PrinterJob;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -53,6 +61,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.transform.Translate;
 import javafx.stage.Modality;
 
 /**
@@ -697,13 +706,17 @@ public class SettlePaymentFXMLController implements Initializable {
                                     String productName = orderRs.getString("item_name");
                                     double finalPrice = orderRs.getDouble("final_price");
                                     int quantity = orderRs.getInt("quantity");
+                                    double addonsPrice = orderRs.getDouble("addons_price");
+                                    double itemSizePrice = orderRs.getDouble("sizePrice");
+                                    double price = orderRs.getDouble("price");
+
 
                                     // Check if size and add_ons columns are available
                                     String size = orderRs.getString("size") != null ? orderRs.getString("size") : "";
                                     String addons = orderRs.getString("add_ons") != null ? orderRs.getString("add_ons") : "";
 
                                     // Create an ItemData instance with the fetched data
-                                    ItemData itemData = new ItemData(orderId, combineWithAddons(size, productName, addons), finalPrice, quantity);
+                                    ItemData itemData = new ItemData(orderId, combineWithAddons(size, productName, addons), price, itemSizePrice, finalPrice, addonsPrice, quantity);
 
                                     // Add the ItemData to the list
                                     orderDetailsList.add(itemData);

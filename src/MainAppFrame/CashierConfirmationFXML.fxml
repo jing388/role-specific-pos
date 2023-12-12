@@ -19,18 +19,11 @@
                   <Image url="@../Pictures/Splashscreen%20(2).png" />
                </image>
             </ImageView>
-            <TableView fx:id="receiptTV2" layoutX="36.0" layoutY="193.0" prefHeight="325.0" prefWidth="378.0" style="-fx-table-cell-border-color: transparent;" stylesheets="@../CSS/CashierCSS.css">
-               <columns>
-                  <TableColumn fx:id="receiptProduct" prefWidth="209.5999641418457" text="Product" />
-                  <TableColumn fx:id="receiptQuantity2" prefWidth="54.4000244140625" text="Qty" />
-                  <TableColumn fx:id="receiptPrice2" prefWidth="112.80002441406248" text="Price" />
-               </columns>
-            </TableView>
-            <HBox alignment="CENTER_LEFT" layoutX="131.0" layoutY="171.0">
+            <HBox alignment="CENTER_LEFT" layoutX="133.0" layoutY="173.0">
                <children>
                   <Label fx:id="handlerName1" text="Jasper" textFill="#282828">
                      <font>
-                        <Font size="10.0" />
+                        <Font name="Monospaced Regular" size="10.0" />
                      </font></Label>
                </children>
             </HBox>
@@ -38,27 +31,27 @@
                <children>
                   <Label fx:id="subTotal" text="Subtotal" textFill="#333333">
                      <font>
-                        <Font size="11.0" />
+                        <Font name="Monospaced Regular" size="11.0" />
                      </font>
                   </Label>
                   <Label fx:id="discount" text="Discount" textFill="#333333">
                      <font>
-                        <Font size="11.0" />
+                        <Font name="Monospaced Regular" size="11.0" />
                      </font>
                   </Label>
                   <Label fx:id="total" text="Total" textFill="#333333">
                      <font>
-                        <Font size="11.0" />
+                        <Font name="Monospaced Regular" size="11.0" />
                      </font>
                   </Label>
                   <Label fx:id="cash" text="Cash" textFill="#333333">
                      <font>
-                        <Font size="11.0" />
+                        <Font name="Monospaced Regular" size="11.0" />
                      </font>
                   </Label>
                   <Label fx:id="change" text="Change" textFill="#333333">
                      <font>
-                        <Font size="11.0" />
+                        <Font name="Monospaced Regular" size="11.0" />
                      </font>
                   </Label>
                </children>
@@ -77,7 +70,7 @@
                <children>
                   <Label fx:id="dateTime1" alignment="CENTER_RIGHT" text="Date Time" textFill="#282828">
                      <font>
-                        <Font size="10.0" />
+                        <Font name="Monospaced Regular" size="10.0" />
                      </font></Label>
                </children>
             </HBox>
@@ -96,11 +89,18 @@
                   <Image url="@../Pictures/Number%20(2).png" />
                </image>
             </ImageView>
-            <Label fx:id="orderID" layoutX="90.0" layoutY="159.0" text="0">
+            <Label fx:id="orderID" layoutX="90.0" layoutY="160.0" prefHeight="12.0" prefWidth="27.0" text="0">
                <font>
-                  <Font size="10.0" />
+                  <Font name="Monospaced Regular" size="10.0" />
                </font>
             </Label>
+            <TableView fx:id="receiptTV2" layoutX="34.0" layoutY="196.0" prefHeight="318.0" prefWidth="400.0" stylesheets="@../CSS/TableViewCSS.css">
+              <columns>
+                <TableColumn fx:id="receiptProduct" prefWidth="165.59991455078125" text="Item Name" />
+                <TableColumn fx:id="receiptPrice2" prefWidth="130.40008544921875" text="Quantity" />
+                  <TableColumn fx:id="receiptQuantity2" prefWidth="79.20001220703125" text="Price" />
+              </columns>
+            </TableView>
          </children>
          <padding>
             <Insets bottom="50.0" />

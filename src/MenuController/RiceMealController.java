@@ -6,6 +6,7 @@ package MenuController;
 
 import ClassFiles.ControllerManager;
 import ClassFiles.RiceMealsItemData;
+import Databases.CRUDDatabase;
 import MainAppFrame.CashierFXMLController;
 import MainAppFrame.database;
 import java.io.ByteArrayInputStream;
@@ -13,6 +14,7 @@ import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.ResultSet;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -43,7 +45,7 @@ public class RiceMealController {
 
     @FXML
     private Label foodLabel;
-     @FXML
+    @FXML
     private Label StatusLbl;
 
     @FXML
@@ -78,12 +80,13 @@ public class RiceMealController {
         // Assuming you have a method in MilkteaItemData to get the image name or title
         String itemName = riceMealsItemData.getItemName();
         Integer price = riceMealsItemData.getPrice();
-         String status = riceMealsItemData.getStatus();
+        String status = riceMealsItemData.getStatus();
 
         // Set data to corresponding components
         foodLabel.setText(itemName);
 
-        StatusLbl.setText( status);
+        StatusLbl.setText(status);
+
         /* para doon sa image */
         Blob imageBlob = riceMealsItemData.getImage();
         byte[] imageBytes = imageBlob.getBytes(1, (int) imageBlob.length());
@@ -97,17 +100,19 @@ public class RiceMealController {
 
         try (Connection conn = database.getConnection()) {
             if (conn != null) {
-                String sql = "INSERT INTO rice_meal (customer_id, date_time, item_name, quantity,ask_me,price,final_price) VALUES (?, NOW(), ?, ?, ?, ?,?)";
+                String sql = "INSERT INTO rice_meal(customer_id, date_time, item_name, quantity, ask_me, price, final_price) VALUES (?, NOW(), ?, ?, ?, ?, ?)";
                 try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                     stmt.setInt(1, customer_id);
                     stmt.setString(2, menuName);
                     stmt.setInt(3, selectedQuantity);
                     stmt.setBoolean(4, askmeRadioSelected);
-                    int price = calculatePrice();
+
+                    // Use the price variable for the price in the database
+                    int price = calculateOriginalPrice();
                     stmt.setInt(5, price);
 
                     // Calculate the final price based on selected size and add-ons
-                    int final_price = calculatePrice() ;
+                    int final_price = calculatePrice();
                     stmt.setInt(6, final_price);
 
                     stmt.executeUpdate();
@@ -145,18 +150,17 @@ public class RiceMealController {
                 } else {
                     System.out.println("Cashier controller not available.");
                 }
-                
-                 String status = StatusLbl.getText();
-           
-                 if ("Out Of Stock".equals(status)) {
-                // Product is out of stock, show alert and return without adding to the table view or database
-                Alert outOfStockAlert = new Alert(Alert.AlertType.ERROR);
-                outOfStockAlert.setTitle("Out of Stock");
-                outOfStockAlert.setHeaderText(null);
-                outOfStockAlert.setContentText("Sorry, the selected product is out of stock.");
-                outOfStockAlert.showAndWait();
-                return;
-            }
+
+                String status = StatusLbl.getText();
+                if ("Out Of Stock".equals(status)) {
+
+                    Alert outOfStockAlert = new Alert(Alert.AlertType.ERROR);
+                    outOfStockAlert.setTitle("Out of Stock");
+                    outOfStockAlert.setHeaderText(null);
+                    outOfStockAlert.setContentText("Sorry, the selected product is out of stock.");
+                    outOfStockAlert.showAndWait();
+                    return;
+                }
 
                 // Move insertOrderToDatabase inside the else block to ensure customer_id is properly assigned
                 insertOrderToDatabase(customer_id, menuName, selectedQuantity, askmeRadioSelected);
@@ -181,34 +185,30 @@ public class RiceMealController {
 
     }
 
-    
-    
-    
-    
-  private int calculatePrice() {
-    if (riceMealsItemData != null) {
-        Integer selectedQuantity = (Integer) spinnerQuantity.getValue();
-
-        if (selectedQuantity == 0) {
-            System.out.println("Please select a valid quantity.");
-            return 0; // or handle the error as needed
+    private int calculateOriginalPrice() {
+        if (riceMealsItemData != null) {
+            return riceMealsItemData.getPrice();
         }
-
-        int price = riceMealsItemData.getPrice();
-        
-        // Calculate the final price based on the selected quantity
-        int finalPrice = price * selectedQuantity;
-
-        return finalPrice;
+        return 0; // or handle the error as needed
     }
-    return 0; // or handle the error as needed
+
+    private int calculatePrice() {
+        if (riceMealsItemData != null) {
+            Integer selectedQuantity = (Integer) spinnerQuantity.getValue();
+
+            if (selectedQuantity == 0) {
+                System.out.println("Please select a valid quantity.");
+                return 0; // or handle the error as needed
+            }
+
+            int originalPrice = calculateOriginalPrice();
+
+            // Calculate the final price based on the selected quantity
+            int finalPrice = originalPrice * selectedQuantity;
+
+            return finalPrice;
+        }
+        return 0; // or handle the error as needed
+    }
+
 }
-
-
-
-}
-
-    
-    
-    
-    

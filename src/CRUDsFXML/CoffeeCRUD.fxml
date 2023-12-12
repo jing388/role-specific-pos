@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -28,7 +29,10 @@
       <TextField fx:id="txtLargePrice" layoutX="722.0" layoutY="209.0" prefHeight="26.0" prefWidth="88.0" promptText="P 0.00" />
       <TextArea fx:id="txtType" layoutX="609.0" layoutY="256.0" prefHeight="90.0" prefWidth="200.0" promptText="Eg. Hot, Cold" />
       <Button fx:id="addBTN" layoutX="766.0" layoutY="375.0" mnemonicParsing="false" onAction="#handleAddButtonClick" text="Add" />
-      <Label layoutX="533.0" layoutY="98.0" text="Item Name" />
+      <Label layoutX="533.0" layoutY="98.0" text="Item Name">
+         <tooltip>
+            <Tooltip text="hello" />
+         </tooltip></Label>
       <Label layoutX="533.0" layoutY="143.0" text="Size Prices" />
       <Label layoutX="667.0" layoutY="143.0" text="Small" />
       <Label layoutX="667.0" layoutY="178.0" text="Medium" />
