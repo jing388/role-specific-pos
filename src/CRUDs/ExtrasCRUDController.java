@@ -34,6 +34,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javax.imageio.ImageIO;
+import ClassFiles.TxtUtils;
 
 public class ExtrasCRUDController implements Initializable {
 
@@ -89,7 +90,9 @@ public class ExtrasCRUDController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         displayExtras();
-        restrictLetter(txtPrice);
+        TxtUtils.restrictLetter(txtPrice);
+        TxtUtils.limitCharacters(txtPrice, 4);
+        TxtUtils.limitCharacters(txtItemName,50);
         statusComboBox.setValue("InStock");
         initializeStatusComboBox();
 
@@ -384,13 +387,8 @@ public class ExtrasCRUDController implements Initializable {
 }
         }
     }
- public void restrictLetter(TextField textField) {
-        textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*\\.?\\d*")) {
-                textField.setText(oldValue);
-            }
-        });
-    }
+ 
+
      
     private boolean isProductAlreadyExists(Connection connection, String itemName) {
         String sql = "SELECT COUNT(*) FROM extras_items WHERE item_name = ?";

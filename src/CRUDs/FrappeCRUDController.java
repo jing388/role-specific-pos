@@ -40,6 +40,7 @@ import javafx.stage.FileChooser;
 import javax.imageio.ImageIO;
 import java.io.InputStream;
 import javafx.scene.control.ComboBox;
+import ClassFiles.TxtUtils;
 
 public class FrappeCRUDController implements Initializable {
 
@@ -108,9 +109,13 @@ public class FrappeCRUDController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         displayFrappe();
-        restrictLetter(txtLargePrice);
-        restrictLetter(txtMediumPrice);
-        restrictLetter(txtSmallPrice);
+        TxtUtils.restrictLetter(txtLargePrice);
+        TxtUtils.restrictLetter(txtMediumPrice);
+        TxtUtils.restrictLetter(txtSmallPrice);
+        TxtUtils.limitCharacters(txtLargePrice, 4);
+        TxtUtils.limitCharacters(txtMediumPrice,4);
+        TxtUtils.limitCharacters(txtSmallPrice, 4);
+        TxtUtils.limitCharacters(txtItemName,50);
         statusComboBox.setValue("InStock");
         initializeStatusComboBox();
 
@@ -417,14 +422,7 @@ public class FrappeCRUDController implements Initializable {
         }
     }
 
-    public void restrictLetter(TextField textField) {
-        textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*\\.?\\d*")) {
-                textField.setText(oldValue);
-            }
-        });
-    }
-
+  
     private boolean isProductAlreadyExists(Connection connection, String itemName) {
         String sql = "SELECT COUNT(*) FROM frappe_items WHERE item_name = ?";
 

@@ -38,6 +38,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javax.imageio.ImageIO;
+import ClassFiles.TxtUtils;
 
 public class MilkteaCRUDController implements Initializable {
 
@@ -110,9 +111,14 @@ public class MilkteaCRUDController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         displayMilktea();
-        restrictLetter(txtLargePrice);
-        restrictLetter(txtMediumPrice);
-        restrictLetter(txtSmallPrice);
+        TxtUtils.restrictLetter(txtLargePrice);
+        TxtUtils.restrictLetter(txtMediumPrice);
+        TxtUtils.restrictLetter(txtSmallPrice);
+       
+        TxtUtils.limitCharacters(txtLargePrice, 4);
+        TxtUtils.limitCharacters(txtMediumPrice,4);
+        TxtUtils.limitCharacters(txtSmallPrice, 4);
+        TxtUtils.limitCharacters(txtItemName,50);
         
         initializeStatusComboBox();
         statusComboBox.setValue("InStock");
@@ -408,13 +414,8 @@ public class MilkteaCRUDController implements Initializable {
         itemIV.setImage(null);
         iconIV.setVisible(true);
     }
-    public void restrictLetter(TextField textField) {
-        textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*\\.?\\d*")) {
-                textField.setText(oldValue);
-            }
-        });
-    }
+    
+
 
     private void handleTableView() {
 

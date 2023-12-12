@@ -36,6 +36,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javax.imageio.ImageIO;
+import ClassFiles.TxtUtils;
 
 public class FruitDrinkCRUDController implements Initializable {
 
@@ -114,9 +115,14 @@ public class FruitDrinkCRUDController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         displayFruitDrink();
-         restrictLetter(txtLargePrice);
-        restrictLetter(txtMediumPrice);
-        restrictLetter(txtSmallPrice);
+         TxtUtils.restrictLetter(txtLargePrice);
+        TxtUtils.restrictLetter(txtMediumPrice);
+        TxtUtils.restrictLetter(txtSmallPrice);
+       
+        TxtUtils.limitCharacters(txtLargePrice, 4);
+        TxtUtils.limitCharacters(txtMediumPrice,4);
+        TxtUtils.limitCharacters(txtSmallPrice, 4);
+        TxtUtils.limitCharacters(txtItemName,50);
         initializeStatusComboBox();
         statusComboBox.setValue("InStock");
 
@@ -445,13 +451,7 @@ public class FruitDrinkCRUDController implements Initializable {
 }
         }
     }
-     public void restrictLetter(TextField textField) {
-        textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*\\.?\\d*")) {
-                textField.setText(oldValue);
-            }
-        });
-    }
+     
      
     private boolean isProductAlreadyExists(Connection connection, String itemName) {
         String sql = "SELECT COUNT(*) FROM fruitdrink_items WHERE item_name = ?";

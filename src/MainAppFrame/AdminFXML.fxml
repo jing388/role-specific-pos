@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="AdminPane" onMouseDragged="#handleMouseDragged" onMousePressed="#handleMousePressed" prefHeight="652.0" prefWidth="1136.0" styleClass="anchorPaneBG" stylesheets="@../CSS/AdminCSS.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainAppFrame.AdminFXMLController">
+<AnchorPane fx:id="AdminPane" onMouseDragged="#handleMouseDragged" onMousePressed="#handleMousePressed" prefHeight="652.0" prefWidth="1136.0" styleClass="anchorPaneBG" stylesheets="@../CSS/AdminCSS.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainAppFrame.AdminFXMLController">
     <children>
         <Label layoutX="451.0" layoutY="77.0" text="DASHBOARD" textFill="#404040">
             <font>
@@ -452,11 +452,6 @@
                                 <TableColumn fx:id="pin_code" prefWidth="112.79995117187502" text="PinCode" />
                             </columns>
                         </TableView>
-                        <ImageView fitHeight="36.0" fitWidth="46.0" layoutX="766.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../../../New%20Folder%20(2)/ROLE-SPECIFIC-POS-SYSTEM/src/Pictures/editEmployee.png" />
-                            </image>
-                        </ImageView>
                   <Button fx:id="addEmployee" layoutX="770.0" layoutY="95.0" mnemonicParsing="false" onAction="#openAddEmployeeDialog" prefHeight="26.0" prefWidth="154.0" styleClass="employeeButton" stylesheets="@../CSS/AdminCSS.css" text="+ Add Employee" textFill="WHITE" />
                   <Button layoutX="925.0" layoutY="85.0" mnemonicParsing="false" onAction="#handleEditEmployeeButton" prefHeight="47.0" prefWidth="59.0" styleClass="buttonNavigation" stylesheets="@../CSS/AdminCSS.css">
                      <graphic>
@@ -472,6 +467,7 @@
                         <Image url="@../Pictures/2%20(1).png" />
                      </image>
                   </ImageView>
+                  <ComboBox fx:id="sortFilterEmp" layoutX="603.0" layoutY="95.0" prefWidth="150.0" promptText="All" styleClass="employeeButton" stylesheets="@../CSS/AdminCSS.css" />
                     </children>
                 </AnchorPane>
                 <AnchorPane fx:id="disCoup" layoutX="-200.0" layoutY="-95.0" prefHeight="560.0" prefWidth="1030.0" style="-fx-background-color: #111315;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-95.0">
@@ -503,6 +499,7 @@
                                 <Image url="@../Pictures/2.png" />
                             </image>
                         </ImageView>
+                  <Button fx:id="DiscHistory" layoutX="848.0" layoutY="517.0" mnemonicParsing="false" onAction="#handleDiscHistoryButton" prefHeight="28.0" prefWidth="117.0" styleClass="homeButton" stylesheets="@../../../RoleSpecific_POS_System-COPY/src/CSS/AdminCSS.css" text="History" textFill="WHITE" />
                     </children>
                 </AnchorPane>
             </children>
