@@ -22,11 +22,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -45,6 +48,9 @@ import javafx.scene.layout.GridPane;
  */
 // Import statements...
 public class KitchenCardFXMLController implements Initializable {
+
+    @FXML
+    private Button allCompletedBTN;
 
     @FXML
     private AnchorPane kitchenCardAP;
@@ -72,6 +78,8 @@ public class KitchenCardFXMLController implements Initializable {
     private KitchenFXMLController kitchenController;
 
     private KitchenFXMLController kitchencontroller;
+
+    private OrderCardFXMLController orderCardController;
 
     public void setKitchenController(KitchenFXMLController kitchenController) {
         this.kitchenController = kitchenController;
@@ -151,13 +159,40 @@ public class KitchenCardFXMLController implements Initializable {
         return customerData;
     }
 
+    @FXML
+    private void handleAllCompletedButton(ActionEvent event) {
+        System.out.println("All Completed Button Clicked");
+
+        // Assuming you have reference to orderCardController from KitchenCardFXMLController
+        if (orderCardController != null) {
+            orderCardController.setOrderStatusCompleted();
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        // Initialize orderCardController here
+        initializeOrderCardController();
+
         // No need to retrieve all orders here
         initializeSizeComboBox();
 
         // Set the default value to "None" for all ComboBoxes
         wholeOrderStatusCB.setValue("New Order!");
+    }
+
+    private void initializeOrderCardController() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Kitchen/OrderCardFXML.fxml"));
+            AnchorPane pane = loader.load();
+
+            // Access the controller and set the data
+            orderCardController = loader.getController();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public ObservableList<OrderCardData> menuGetData(String customerID) {
@@ -215,10 +250,14 @@ public class KitchenCardFXMLController implements Initializable {
         return listData;
     }
 
+    private List<OrderCardFXMLController> orderCardControllers = new ArrayList<>();
+
     private void orderGrid() throws SQLException {
         orderCardGP.getChildren().clear();
         int column = 0;
         int row = 1;
+
+        orderCardControllers.clear(); // Clear the list before populating it again
 
         for (OrderCardData orderCardData : orderCardData) {
             try {
@@ -229,6 +268,9 @@ public class KitchenCardFXMLController implements Initializable {
                 // Access the controller and set the data
                 OrderCardFXMLController orderCardFXMLController = loader.getController();
                 orderCardFXMLController.setOrderCardData(orderCardData);
+
+                // Add the controller to the list
+                orderCardControllers.add(orderCardFXMLController);
 
                 if (column == 1) {
                     column = 0;
@@ -242,41 +284,66 @@ public class KitchenCardFXMLController implements Initializable {
                 ex.printStackTrace();
             }
         }
+
+        // Set the action event for the allCompletedBTN outside the loop
+        allCompletedBTN.setOnAction(event -> {
+            for (OrderCardFXMLController controller : orderCardControllers) {
+                System.out.println("Order Card Controller: " + controller);
+                if (controller != null) {
+                    controller.setOrderStatusCompleted();
+                }
+            }
+        });
+
     }
 
     @FXML
     private void handleOrderCompleted() throws SQLException {
-        try (Connection connection = database.getConnection()) {
-            // Get the customer ID from the label
-            String customerID = custNoLBL.getText();
+        // Check if all order statuses are "Completed"
+        boolean allCompleted = true;
 
-            // Transfer data for the specific customer from invoice to invoice_archive
-            String transferQuery = "INSERT INTO invoice_archive SELECT * FROM invoice WHERE customer_id = ?";
-            try (PreparedStatement transferStatement = connection.prepareStatement(transferQuery)) {
-                transferStatement.setString(1, customerID);
-                transferStatement.executeUpdate();
-
-                // After transferring, you can delete the row from invoice
-                String deleteQuery = "DELETE FROM invoice WHERE customer_id = ?";
-                try (PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
-                    deleteStatement.setString(1, customerID);
-                    deleteStatement.executeUpdate();
-                }
-
-                // Optionally, you can perform additional actions after completing the order
-                // For example, update the UI or display a confirmation message
+        for (OrderCardFXMLController controller : orderCardControllers) {
+            if (controller == null || !"Completed".equals(controller.getOrderStatus())) {
+                allCompleted = false;
+                break;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
 
-        // Call the getArchive method in the KitchenFXMLController
-        if (kitchenController != null) {
-            kitchenController.getOrders(); // If needed, also update the Orders tab
-            kitchenController.loadArchiveTableFromDatabase(); 
-            kitchenController.setupArchiveColumns();
+        if (allCompleted) {
+            try (Connection connection = database.getConnection()) {
+                // Get the customer ID from the label
+                String customerID = custNoLBL.getText();
+
+                // Transfer data for the specific customer from invoice to invoice_archive
+                String transferQuery = "INSERT INTO invoice_archive SELECT * FROM invoice WHERE customer_id = ?";
+                try (PreparedStatement transferStatement = connection.prepareStatement(transferQuery)) {
+                    transferStatement.setString(1, customerID);
+                    transferStatement.executeUpdate();
+
+                    // After transferring, you can delete the row from invoice
+                    String deleteQuery = "DELETE FROM invoice WHERE customer_id = ?";
+                    try (PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
+                        deleteStatement.setString(1, customerID);
+                        deleteStatement.executeUpdate();
+                    }
+
+                    // Optionally, you can perform additional actions after completing the order
+                    // For example, update the UI or display a confirmation message
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            // Call the getArchive method in the KitchenFXMLController
+            if (kitchenController != null) {
+                kitchenController.getOrders(); // If needed, also update the Orders tab
+                kitchenController.loadArchiveTableFromDatabase();
+                kitchenController.setupArchiveColumns();
+            }
+        } else {
+            // Display a message or take other actions if not all orders are completed
+            System.out.println("Not all orders are completed.");
         }
-        
     }
 
     private void initializeSizeComboBox() {
@@ -290,4 +357,4 @@ public class KitchenCardFXMLController implements Initializable {
     }
 
     ////////////////////////////////////
-} 
+}

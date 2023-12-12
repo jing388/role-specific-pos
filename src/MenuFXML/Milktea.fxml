@@ -7,44 +7,34 @@
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Line?>
 
-<AnchorPane id="AnchorPane" prefHeight="419.0" prefWidth="394.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController.MenuController">
+<AnchorPane id="AnchorPane" prefHeight="412.0" prefWidth="394.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController.MenuController">
    <children>
       <Pane prefHeight="430.0" prefWidth="394.0" styleClass="containerColorMT" stylesheets="@../CSS/CashierCSS.css">
          <children>
-            <Spinner fx:id="spinnerQuantity" layoutX="222.0" layoutY="138.0" prefHeight="28.0" prefWidth="117.0" styleClass="spinner1" stylesheets="@../CSS/CashierCSS.css" />
-            <Button fx:id="confirmButton1" layoutX="246.0" layoutY="368.0" mnemonicParsing="false" onAction="#confirmButton1" prefHeight="25.0" prefWidth="92.0" styleClass="menuButton1" stylesheets="@../CSS/CashierCSS.css" text="Confirm" />
-            <Label layoutX="61.0" layoutY="224.0" text="Size" textFill="#4e4e4e" />
-            <ComboBox fx:id="sizeComboBox" layoutX="222.0" layoutY="219.0" prefHeight="27.0" prefWidth="117.0" styleClass="combo-box1" stylesheets="@../CSS/CashierCSS.css" />
-            <Label layoutX="59.0" layoutY="257.0" text="Add-ons" textFill="#4e4e4e" />
-            <ComboBox fx:id="addonsComboBox" layoutX="222.0" layoutY="252.0" prefHeight="27.0" prefWidth="117.0" styleClass="combo-box1" stylesheets="@../CSS/CashierCSS.css" />
-            <Label layoutX="61.0" layoutY="289.0" text="Sugar Level" textFill="#4e4e4e" />
-            <ComboBox fx:id="sugarlevelComboBox" layoutX="222.0" layoutY="284.0" prefHeight="27.0" prefWidth="117.0" styleClass="combo-box1" stylesheets="@../CSS/CashierCSS.css" />
-            <Label layoutX="62.0" layoutY="333.0" text="Ask Me" textFill="#4e4e4e" />
-            <RadioButton fx:id="askmeRadioHead" layoutX="320.0" layoutY="333.0" mnemonicParsing="false" onAction="#askmeRadioHeadSelected" prefHeight="18.0" prefWidth="19.0" styleClass="radio-button1" stylesheets="@../CSS/CashierCSS.css" />
-            <VBox alignment="CENTER_LEFT" layoutX="59.0" layoutY="63.0" prefHeight="137.0" prefWidth="150.0">
+            <Spinner fx:id="spinnerQuantity" layoutX="133.0" layoutY="186.0" prefHeight="25.0" prefWidth="130.0" />
+            <Button fx:id="confirmButton1" layoutX="247.0" layoutY="370.0" mnemonicParsing="false" onAction="#confirmButton1" text="Confirm" />
+            <Label layoutX="94.0" layoutY="233.0" text="Size" textFill="#111315" />
+            <ComboBox fx:id="sizeComboBox" layoutX="192.0" layoutY="228.0" prefHeight="26.0" prefWidth="111.0" />
+            <Label layoutX="94.0" layoutY="269.0" text="Add-ons" textFill="#111315" />
+            <ComboBox fx:id="addonsComboBox" layoutX="192.0" layoutY="263.0" prefHeight="26.0" prefWidth="111.0" />
+            <Label layoutX="94.0" layoutY="304.0" text="Sugar Level" textFill="#111315" />
+            <ComboBox fx:id="sugarlevelComboBox" layoutX="192.0" layoutY="299.0" prefHeight="26.0" prefWidth="111.0" />
+            <Label layoutX="94.0" layoutY="338.0" text="Ask Me" textFill="#111315" />
+            <RadioButton fx:id="askmeRadioHead" layoutX="286.0" layoutY="337.0" mnemonicParsing="false" onAction="#askmeRadioHeadSelected" prefHeight="18.0" prefWidth="19.0" />
+            <VBox alignment="CENTER" layoutX="87.0" layoutY="39.0" prefHeight="147.0" prefWidth="221.0">
                <children>
-                  <ImageView fx:id="foodImg" fitHeight="103.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="foodImg" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label fx:id="foodLabel" text="Label" textFill="#111315" wrapText="true" />
+                     </children>
+                  </VBox>
                </children>
             </VBox>
-            <VBox alignment="CENTER" layoutX="266.0" layoutY="81.0">
-               <children>
-                  <Label fx:id="foodLabel" text="Label" textFill="#4e4e4e" wrapText="true" />
-               </children>
-            </VBox>
-            <Label fx:id="StatusLbl" layoutX="30.0" layoutY="24.0" prefHeight="17.0" prefWidth="150.0" text="Label" textFill="#4e4e4e" />
-            <Line endX="176.79998779296875" endY="-3.0517578125E-5" layoutX="160.0" layoutY="323.0" startX="-100.0" stroke="#6e6e6e" />
-            <HBox alignment="CENTER" layoutX="206.0" layoutY="106.0" prefHeight="17.0" prefWidth="150.0" spacing="20.0">
-               <children>
-                  <Label text="Label" />
-                  <Label text="Label" />
-                  <Label text="Label" />
-               </children>
-            </HBox>
+            <Label fx:id="StatusLbl" layoutX="29.0" layoutY="31.0" prefHeight="17.0" prefWidth="150.0" text="Label" />
          </children></Pane>
    </children>
 </AnchorPane>

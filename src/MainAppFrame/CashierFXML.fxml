@@ -52,7 +52,7 @@
                         <TableColumn fx:id="columnItemPrice" prefWidth="52.0" resizable="false" text="Total" />
                     </columns>
                   </TableView>
-                  <ImageView fitHeight="58.0" fitWidth="56.0" layoutX="194.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="43.0" fitWidth="46.0" layoutX="198.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../Pictures/cashier_g1.png" />
                      </image>

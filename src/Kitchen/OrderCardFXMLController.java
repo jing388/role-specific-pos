@@ -41,7 +41,7 @@ public class OrderCardFXMLController implements Initializable {
 
     @FXML
     private Label sugarlvlLBL;
-    
+
     @FXML
     private Label typeLBL;
 
@@ -105,6 +105,15 @@ public class OrderCardFXMLController implements Initializable {
 
         // Set visibility of checkBoxIV based on the value of askMe
         checkBoxIV.setVisible(askMe);
+    }
+
+    public void setOrderStatusCompleted() {
+        orderStatusCB.setValue("Completed");
+        orderStatusCB.setStyle("-fx-background-color: #44AF3C;");
+    }
+
+    public String getOrderStatus() {
+        return orderStatusCB.getValue();
     }
 
     private void initializeSizeComboBox() {
