@@ -34,13 +34,19 @@ import javafx.scene.control.TableView;
 public class CashierConfirmationFXMLController implements Initializable {
 
     @FXML
-    private TableColumn<ItemData, Double> receiptPrice2;
+    private TableColumn<ItemData, Double> receiptPrice;
+
+    @FXML
+    private TableColumn<ItemData, Double> receiptAddOn;
+
+    @FXML
+    private TableColumn<ItemData, Double> receiptTotal;
 
     @FXML
     private TableColumn<ItemData, String> receiptProduct;
 
     @FXML
-    private TableColumn<ItemData, Integer> receiptQuantity2;
+    private TableColumn<ItemData, Integer> receiptQuantity;
 
     @FXML
     private TableView<ItemData> receiptTV2;
@@ -104,7 +110,7 @@ public class CashierConfirmationFXMLController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        receiptTV2.setStyle("-fx-font-family: 'Monospaced';");
+        receiptTV2.setStyle("-fx-font-family: 'Monospaced'; -fx-font-size: 10px;");
 
         System.out.println("CashierConfirmationFXMLController initialized");
         try {
@@ -126,42 +132,47 @@ public class CashierConfirmationFXMLController implements Initializable {
             try (Connection conn = database.getConnection()) {
                 if (conn != null) {
                     // Fetch orders from each table based on customer_id
-                    String[] tables = {"milk_tea", "fruit_drink", "frappe", "coffee", "rice_meal", "snacks", "extras"};
+                    String combinedSql = "SELECT order_id, size, item_name, '' AS price, size_price, add_ons, addons_price, final_price, quantity, date_time FROM milk_tea WHERE customer_id = ? "
+                            + "UNION "
+                            + "SELECT order_id, size, item_name, '' AS price, size_price, '' AS add_ons, '' AS addons_price, final_price, quantity, date_time FROM fruit_drink WHERE customer_id = ? "
+                            + "UNION "
+                            + "SELECT order_id, size, item_name, '' AS price, size_price, '' AS add_ons, '' AS addons_price, final_price, quantity, date_time FROM frappe WHERE customer_id = ? "
+                            + "UNION "
+                            + "SELECT order_id, size, item_name, '' AS price, size_price, '' AS add_ons, '' AS addons_price, final_price, quantity, date_time FROM coffee WHERE customer_id = ? "
+                            + "UNION "
+                            + "SELECT order_id, '' AS size, item_name, price, '' AS size_price, '' AS add_ons, '' AS addons_price, final_price, quantity, date_time FROM rice_meal WHERE customer_id = ? "
+                            + "UNION "
+                            + "SELECT order_id, '' AS size, item_name, price, '' AS size_price, '' AS add_ons, '' AS addons_price, final_price, quantity, date_time FROM snacks WHERE customer_id = ? "
+                            + "UNION "
+                            + "SELECT order_id, '' AS size, item_name, price, '' AS size_price, '' AS add_ons, '' AS addons_price, final_price, quantity, date_time FROM extras WHERE customer_id = ? "
+                            + "ORDER BY date_time Asc";
 
-                    for (String table : tables) {
-                        String orderQuery;
-                        if ("milk_tea".equals(table)) {
-                            orderQuery = "SELECT order_id, item_name, final_price, quantity, size, add_ons FROM " + table + " WHERE customer_id = ?";
-                        } else if ("frappe".equals(table) || "fruit_drink".equals(table) || "coffee".equals(table)) {
-                            orderQuery = "SELECT order_id, item_name, final_price, quantity, size, '' AS add_ons FROM " + table + " WHERE customer_id = ?";
-                        } else {
-                            orderQuery = "SELECT order_id, item_name, final_price, quantity, '' AS size, '' AS add_ons FROM " + table + " WHERE customer_id = ?";
+                    try (PreparedStatement orderStmt = conn.prepareStatement(combinedSql)) {
+                        // Bind parameters for all SELECT statements
+                        for (int i = 1; i <= 7; i++) {
+                            orderStmt.setInt(i, currentCustomerID);
                         }
 
-                        try (PreparedStatement orderStmt = conn.prepareStatement(orderQuery)) {
-                            orderStmt.setInt(1, currentCustomerID);
+                        try (ResultSet orderRs = orderStmt.executeQuery()) {
+                            while (orderRs.next()) {
+                                // Extract relevant order details (adjust as needed)
+                                int orderId = orderRs.getInt("order_id");
+                                String productName = orderRs.getString("item_name");
+                                double finalPrice = orderRs.getDouble("final_price");
+                                double addonsPrice = orderRs.getDouble("addons_price");
+                                int quantity = orderRs.getInt("quantity");
+                                double itemSizePrice = orderRs.getDouble("size_price");
+                                double price = orderRs.getDouble("price");
 
-                            try (ResultSet orderRs = orderStmt.executeQuery()) {
-                                while (orderRs.next()) {
-                                    // Extract relevant order details (adjust as needed)
-                                    int orderId = orderRs.getInt("order_id");
-                                    String productName = orderRs.getString("item_name");
-                                    double finalPrice = orderRs.getDouble("final_price");
-                                    double addonsPrice = orderRs.getDouble("addons_price");
-                                    int quantity = orderRs.getInt("quantity");
-                                    double itemSizePrice = orderRs.getDouble("sizePrice");
-                                    double price = orderRs.getDouble("price");
+                                // Check if size and add_ons columns are available
+                                String size = orderRs.getString("size") != null ? orderRs.getString("size") : "";
+                                String addons = orderRs.getString("add_ons") != null ? orderRs.getString("add_ons") : "";
 
-                                    // Check if size and add_ons columns are available
-                                    String size = orderRs.getString("size") != null ? orderRs.getString("size") : "";
-                                    String addons = orderRs.getString("add_ons") != null ? orderRs.getString("add_ons") : "";
+                                // Create an ItemData instance with the fetched data
+                                ItemData itemData = new ItemData(orderId, combineWithAddons(size, productName, addons), price, finalPrice, itemSizePrice, addonsPrice, quantity);
 
-                                    // Create an ItemData instance with the fetched data
-                                    ItemData itemData = new ItemData(orderId, combineWithAddons(size, productName, addons), price, finalPrice, itemSizePrice, addonsPrice, quantity);
-
-                                    // Add the ItemData to the list
-                                    orderDetailsList.add(itemData);
-                                }
+                                // Add the ItemData to the list
+                                orderDetailsList.add(itemData);
                             }
                         }
                     }
@@ -176,15 +187,14 @@ public class CashierConfirmationFXMLController implements Initializable {
         return orderDetailsList;
     }
 
-// Helper method for combining item name with add-ons
-    private String combineWithAddons(String size, String itemName, String addons) {
-        // Check if addons is not empty or contains only whitespace
-        if (!addons.trim().isEmpty()) {
-            // Concatenate with add-ons
-            return size + " " + itemName + " with " + addons;
+    private String combineWithAddons(String size, String itemName, String addon) {
+        // Check if addon is not empty or contains non-whitespace characters
+        if (addon != null && !addon.trim().isEmpty()) {
+            // Concatenate with milk tea item
+            return size + " " + itemName + " with " + addon;
         } else {
-            // Return without add-ons
-            return size + " " + itemName;
+            // Not an add-on, return as is
+            return size.trim().isEmpty() ? itemName : size + " " + itemName;
         }
     }
 
@@ -198,8 +208,10 @@ public class CashierConfirmationFXMLController implements Initializable {
         }
         try {
             receiptProduct.setCellValueFactory(f -> new SimpleStringProperty(f.getValue().getItemName()));
-            receiptPrice2.setCellValueFactory(f -> new SimpleDoubleProperty(f.getValue().getItemPrice()).asObject());
-            receiptQuantity2.setCellValueFactory(f -> new SimpleIntegerProperty(f.getValue().getItemQuantity()).asObject());
+            receiptQuantity.setCellValueFactory(f -> new SimpleIntegerProperty(f.getValue().getItemQuantity()).asObject());
+            receiptAddOn.setCellValueFactory(f -> new SimpleDoubleProperty(f.getValue().getAddOnPrice()).asObject());
+            receiptTotal.setCellValueFactory(f -> new SimpleDoubleProperty(f.getValue().getItemPrice()).asObject());
+            receiptPrice.setCellValueFactory(f -> new SimpleDoubleProperty(f.getValue().getDisplayPrice()).asObject());
 
             // Bind the TableView to the combined ObservableList
             receiptTV2.setItems(fetchOrderDetails());

@@ -96,9 +96,11 @@
             </Label>
             <TableView fx:id="receiptTV2" layoutX="34.0" layoutY="196.0" prefHeight="318.0" prefWidth="400.0" stylesheets="@../CSS/TableViewCSS.css">
               <columns>
-                <TableColumn fx:id="receiptProduct" prefWidth="165.59991455078125" text="Item Name" />
-                <TableColumn fx:id="receiptPrice2" prefWidth="130.40008544921875" text="Quantity" />
-                  <TableColumn fx:id="receiptQuantity2" prefWidth="79.20001220703125" text="Price" />
+                <TableColumn fx:id="receiptQuantity" prefWidth="27.99993896484375" />
+                <TableColumn fx:id="receiptProduct" prefWidth="159.199951171875" text="Item Name" />
+                  <TableColumn fx:id="receiptPrice" minWidth="0.0" prefWidth="64.0" text="Price" />
+                  <TableColumn fx:id="receiptAddOn" prefWidth="64.800048828125" text="Add-On" />
+                  <TableColumn fx:id="receiptTotal" prefWidth="71.20001220703125" text="Total" />
               </columns>
             </TableView>
          </children>

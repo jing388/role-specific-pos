@@ -58,7 +58,7 @@
     -fx-text-fill: black;
 }
 .table-view .cell:filled{
-    -fx-cell-size: 30;
+    -fx-cell-size: 17;
     -fx-alignment: center-left;
     -fx-border-color: transparent, transparent;
 }

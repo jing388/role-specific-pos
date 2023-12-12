@@ -81,8 +81,8 @@
                               <TableColumn fx:id="receiptQuantity" prefWidth="23.999969482421875" />
                               <TableColumn fx:id="receiptProduct" prefWidth="136.00001525878906" text="Product" />
                               <TableColumn fx:id="receiptPrice" prefWidth="47.199951171875" text="Price" />
-                              <TableColumn prefWidth="56.800048828125" text="Add-On" />
-                              <TableColumn prefWidth="66.4000244140625" text="Total" />
+                              <TableColumn fx:id="receiptAddOn" prefWidth="56.800048828125" text="Add-On" />
+                              <TableColumn fx:id="receiptTotal" prefWidth="66.4000244140625" text="Total" />
                            </columns>
                         </TableView>
                         <Label layoutX="17.0" layoutY="108.0" text="Cashier Handler:">
