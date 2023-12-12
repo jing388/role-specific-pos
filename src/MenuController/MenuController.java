@@ -56,8 +56,8 @@ public class MenuController {
 
     @FXML
     private Label foodLabel;
-    
-       @FXML
+
+    @FXML
     private Label StatusLbl;
 
     private MilkteaItemData milkteaItemData;
@@ -73,9 +73,7 @@ public class MenuController {
         initializeSizeComboBox();
         initializeSugarlevelComboBox();
 
-
         // Set the default value to "None" for all ComboBoxes
-       
         addonsComboBox.setValue("None");
         sizeComboBox.setValue("None");
         sugarlevelComboBox.setValue("None");
@@ -113,14 +111,14 @@ public class MenuController {
 
         // Assuming you have a method in MilkteaItemData to get the addons
         String addons = milkteaItemData.getAddons();
-        
+
         String status = milkteaItemData.getStatus();
-        
+
         // Set data to corresponding components
         foodLabel.setText(itemName);
         addonsComboBox.getItems().clear();
         addonsComboBox.getItems().addAll(addons.split(", "));
-        StatusLbl.setText( status);
+        StatusLbl.setText(status);
         System.out.println("Status: " + status);
         /* para doon sa image */
         Blob imageBlob = milkteaItemData.getImage();
@@ -146,15 +144,14 @@ public class MenuController {
 
                     // Check if size and add-ons are selected and set the corresponding prices
                     int sizePrice = calculateSizePrice(selectedSize);
-                     int addonsPrice = calculateAddonsPrice(selectedAddon);
+                    int addonsPrice = calculateAddonsPrice(selectedAddon);
 
                     stmt.setInt(8, sizePrice);
 
                     // Calculate the final price based on selected size and add-ons
-                    
-                     stmt.setString(9, addonsPrice > 0 ? String.valueOf(addonsPrice) : "");
-                     
-                     int finalPrice = (sizePrice + addonsPrice) * selectedQuantity;
+                    stmt.setString(9, addonsPrice > 0 ? String.valueOf(addonsPrice) : "");
+
+                    int finalPrice = (sizePrice + addonsPrice) * selectedQuantity;
                     stmt.setInt(10, finalPrice);
 
                     stmt.executeUpdate();
@@ -166,7 +163,8 @@ public class MenuController {
             e.printStackTrace();
         }
     }
- private int calculateAddonsPrice(String selectedAddon) {
+
+    private int calculateAddonsPrice(String selectedAddon) {
         // Assuming you have a method in MilkteaItemData to get the addons_price
         try (Connection conn = CRUDDatabase.getConnection()) {
             if (conn != null) {
@@ -202,6 +200,7 @@ public class MenuController {
         // Return 0 if addons_price is not found or if an error occurred
         return 0;
     }
+
     @FXML
     public void confirmButton1(ActionEvent event) {
 
@@ -212,42 +211,42 @@ public class MenuController {
         }
 
         if (milkteaItemData != null) {
-        String menuName = milkteaItemData.getItemName();
-        String selectedAddon = addonsComboBox.getValue();
-        String selectedSize = sizeComboBox.getValue();
-        String selectedSugarLevel = sugarlevelComboBox.getValue();
-        Integer selectedQuantity = (Integer) spinnerQuantity.getValue();
+            String menuName = milkteaItemData.getItemName();
+            String selectedAddon = addonsComboBox.getValue();
+            String selectedSize = sizeComboBox.getValue();
+            String selectedSugarLevel = sugarlevelComboBox.getValue();
+            Integer selectedQuantity = (Integer) spinnerQuantity.getValue();
 
-        if ("None".equals(selectedAddon) || "None".equals(selectedSize) || "None".equals(selectedSugarLevel) || selectedQuantity == 0) {
-            System.out.println("Please select valid options for all ComboBoxes and ensure quantity is greater than 0.");
-        } else {
-            int customer_id = 0; // Initialize customer_id
-
-            if (existingCashierController != null) {
-                // Now, you can use the existing instance of CashierFXMLController
-                customer_id = existingCashierController.getCurrentCustomerID();
+            if ("None".equals(selectedAddon) || "None".equals(selectedSize) || "None".equals(selectedSugarLevel) || selectedQuantity == 0) {
+                System.out.println("Please select valid options for all ComboBoxes and ensure quantity is greater than 0.");
             } else {
-                System.out.println("Cashier controller not available.");
-            }
+                int customer_id = 0; // Initialize customer_id
 
-            // Check if the product is out of stock
-            String status = StatusLbl.getText(); 
-            if ("Out Of Stock".equals(status)) {
-                
-                Alert outOfStockAlert = new Alert(AlertType.ERROR);
-                outOfStockAlert.setTitle("Out of Stock");
-                outOfStockAlert.setHeaderText(null);
-                outOfStockAlert.setContentText("Sorry, the selected product is out of stock.");
-                outOfStockAlert.showAndWait();
-                return;
-            }
+                if (existingCashierController != null) {
+                    // Now, you can use the existing instance of CashierFXMLController
+                    customer_id = existingCashierController.getCurrentCustomerID();
+                } else {
+                    System.out.println("Cashier controller not available.");
+                }
 
-            // Move insertOrderToDatabase inside the else block to ensure customer_id is properly assigned
-            insertOrderToDatabase(customer_id, menuName, selectedQuantity, selectedSize, selectedAddon, selectedSugarLevel, askmeRadioSelected);
-            System.out.println("Data inserted into the database.");
-        }
+                // Check if the product is out of stock
+                String status = StatusLbl.getText();
+                if ("Out Of Stock".equals(status)) {
+
+                    Alert outOfStockAlert = new Alert(AlertType.ERROR);
+                    outOfStockAlert.setTitle("Out of Stock");
+                    outOfStockAlert.setHeaderText(null);
+                    outOfStockAlert.setContentText("Sorry, the selected product is out of stock.");
+                    outOfStockAlert.showAndWait();
+                    return;
+                }
+
+                // Move insertOrderToDatabase inside the else block to ensure customer_id is properly assigned
+                insertOrderToDatabase(customer_id, menuName, selectedQuantity, selectedSize, selectedAddon, selectedSugarLevel, askmeRadioSelected);
+                System.out.println("Data inserted into the database.");
+            }
             // Reset the ComboBoxes to "None"
-            addonsComboBox.setValue("None"); 
+            addonsComboBox.setValue("None");
             sizeComboBox.setValue("None");
             sugarlevelComboBox.setValue("None");
 
@@ -268,8 +267,7 @@ public class MenuController {
 
     }
 
-    /* mga hindi na kailangan ng CRUD, hard-coded customazations */
-    private void initializeSizeComboBox() {
+        private void initializeSizeComboBox() {
         // Populate the sizeComboBox with items
         ObservableList<String> sizes = FXCollections.observableArrayList(
                 "None",
@@ -290,13 +288,13 @@ public class MenuController {
         );
         sugarlevelComboBox.setItems(sugarLevels);
     }
-    
-      private void initializeaddonscombobox() {
-      ObservableList<String> addons = FXCollections.observableArrayList(
-            "None"  // Add "None" as the default option
-    );
-    addonsComboBox.setItems(addons);
-      }
+
+    private void initializeaddonscombobox() {
+        ObservableList<String> addons = FXCollections.observableArrayList(
+                "None" // Add "None" as the default option
+        );
+        addonsComboBox.setItems(addons);
+    }
 
     private int calculateSizePrice(String selectedSize) {
         try (Connection conn = CRUDDatabase.getConnection()) {

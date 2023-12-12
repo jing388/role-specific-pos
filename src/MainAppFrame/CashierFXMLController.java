@@ -1034,7 +1034,7 @@ public class CashierFXMLController implements Initializable, ControllerInterface
                 }
 
                 menuGrid.add(pane, column++, row);
-                GridPane.setMargin(pane, new Insets(20));
+                GridPane.setMargin(pane, new Insets(5));
 
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -1064,7 +1064,7 @@ public class CashierFXMLController implements Initializable, ControllerInterface
                 }
 
                 menuGrid.add(pane, column++, row);
-                GridPane.setMargin(pane, new Insets(20));
+                GridPane.setMargin(pane, new Insets(5));
 
             } catch (IOException ex) {
                 ex.printStackTrace();

@@ -3,6 +3,80 @@
     -fx-background-color: #111315;
 }
 
+/* styles.css */
+
+/* //////////////////////////////////////////////////////////////// */
+
+.combo-box1 {
+    -fx-background-color: transparent;
+    -fx-border-color: #606060; /* Specify your border color */
+    -fx-border-width: 1; /* Specify the border width */
+    -fx-border-radius: 5;
+    -fx-background-radius: 6;
+}
+
+.combo-box1 .arrow-button > .arrow {
+    -fx-background-color: #606060; /* Specify your arrow color */
+}
+
+.menuButton1 {
+    -fx-background-color: transparent;
+    -fx-border-color: #606060;
+    -fx-border-radius: 5;
+}
+
+.menuButton1:hover {
+    -fx-background-color: #606060;
+    -fx-text-fill: #E4AAAA;
+    -fx-background-radius: 5;
+}
+
+/* customSpinner.css */
+
+.spinner1 {
+    -fx-background-color: transparent;
+    -fx-border-color: #606060;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+}
+
+.spinner1 .text-field {
+    -fx-background-color: transparent; /* Make the text field transparent */
+    -fx-border-color: transparent; /* Optional: Make the border transparent */
+}
+
+.spinner1 .increment-arrow-button, .spinner1 .decrement-arrow-button {
+    -fx-background-color: transparent;
+}
+
+.spinner1 .increment-arrow, .spinner1 .decrement-arrow {
+    -fx-background-color: #606060;
+    -fx-background-insets: 0, 1, 2;
+}
+
+.spinner1 .increment-arrow:hover, .spinner1 .decrement-arrow:hover {
+    -fx-background-color: #EDEDED;
+}
+
+/* customRadioButton.css */
+
+.radio-button1 {
+    -fx-background-color: transparent; /* Make the radio button transparent */
+    -fx-border-color: #606060; /* Specify your border color */
+    -fx-border-width: 1; /* Specify the border width */
+}
+
+.radio-button1:selected {
+    -fx-background-color: white; /* Specify your activated color */
+}
+
+.radio-button1 .radio {
+    -fx-background-color: transparent; /* Make the circle (radio) transparent */
+}
+
+/* //////////////////////////////////////////////////////////////// */
+
+
 /* Apply custom styles for the hover state using the myButton ID */
 .buttonMenu:hover {
     -fx-background-color: #292C2D;
@@ -48,7 +122,7 @@
 }
 
 .containerColorMT {
-    -fx-background-color: #D68383;
+    -fx-background-color: #E5B9B9;
     -fx-background-radius: 10px;
 }
 
@@ -127,5 +201,5 @@
 }
 
 .tablevReceipt {
-    
+
 }

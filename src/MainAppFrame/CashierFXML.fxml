@@ -18,7 +18,7 @@
 
 <AnchorPane id="AnchorPane" fx:id="Cashierpane" onMouseDragged="#handleMouseDragged" onMousePressed="#handleMousePressed" prefHeight="652.0" prefWidth="1136.0" style="-fx-background-color: #111315; -fx-background-radius: 5;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainAppFrame.CashierFXMLController">
     <children>
-      <ScrollPane fx:id="receiptScrollPane" layoutX="211.0" layoutY="151.0" prefHeight="450.0" prefWidth="449.0" styleClass="scrollPane" stylesheets="@../CSS/CashierCSS.css" AnchorPane.topAnchor="151.0">
+      <ScrollPane fx:id="receiptScrollPane" layoutX="219.0" layoutY="151.0" prefHeight="450.0" prefWidth="436.0" styleClass="scrollPane" stylesheets="@../CSS/CashierCSS.css" AnchorPane.topAnchor="151.0">
          <content>
             <GridPane fx:id="menuGrid" alignment="CENTER" prefHeight="0.0" prefWidth="0.0" styleClass="grid-pane" stylesheets="@../CSS/CashierCSS.css">
                <columnConstraints>
