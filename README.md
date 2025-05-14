@@ -28,8 +28,8 @@ To build and run this project, ensure the following are installed:
 
 3. **Set up the database:**
    - Start MySQL via XAMPP.
-   - Import the provided `milk_tea.sql` using **phpMyAdmin**.
-   - (Optional) If you don’t have the schema, request it at: **uy.gwynethbscs2022@gmail.com**
+   - Import the provided `.sql` file using **phpMyAdmin**.
+   - If you don’t have the schema, request it at: **uy.gwynethbscs2022@gmail.com**
 
 4. **Run the app:**
    - Navigate to `Login` folder
