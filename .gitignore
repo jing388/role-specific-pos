@@ -10,3 +10,17 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+*.mf
+
+# Ignore logs
+*.log
+
+# Ignore DB dumps
+*.sql
+
+# Ignore build output
+/build/
+/dist/
+
+# Ignore Netbeans private config
+/nbproject/private/
