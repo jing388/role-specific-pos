@@ -4,7 +4,7 @@ This JavaFX-based point-of-sale (POS) system features **role-specific interfaces
 
 ---
 
-## ⚙️ Requirements
+## Requirements
 
 To build and run this project, ensure the following are installed:
 
@@ -15,7 +15,7 @@ To build and run this project, ensure the following are installed:
 
 ---
 
-## 📁 Setup Instructions
+## Setup Instructions
 
 1. **Clone or download** this repository.
 2. **Configure JavaFX** in NetBeans:
@@ -37,7 +37,7 @@ To build and run this project, ensure the following are installed:
 
 ---
 
-## 🔑 Key Features
+## Key Features
 
 ### Login Interface (All Roles)
 - PIN-based login system (4-digit)
@@ -66,12 +66,6 @@ To build and run this project, ensure the following are installed:
 
 ---
 
-## 🚫 Limitations
-
-- E-wallet and online payment integrations are not supported due to the offline/local setup.
-
----
-
-## 📌 Note
+>[!IMPORTANT]
 
 This project is designed for educational and offline use. Networked deployment or cloud hosting is not required or supported.
