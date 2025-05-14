@@ -66,6 +66,6 @@ To build and run this project, ensure the following are installed:
 
 ---
 
->[!IMPORTANT]
+## Note:
 
-This project is designed for educational and offline use. Networked deployment or cloud hosting is not required or supported.
+**This project is designed for educational and offline use. Networked deployment or cloud hosting is not required or supported.**
