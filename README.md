@@ -2,7 +2,6 @@
 
 This JavaFX-based point-of-sale (POS) system features **role-specific interfaces** for cashiers, kitchen staff, and administrators. Built using Java, MySQL, and JavaFX, this system handles real-time ordering, kitchen queueing, and administrative analytics — all in one connected local platform.
 
----
 
 ## Requirements
 
@@ -13,7 +12,6 @@ To build and run this project, ensure the following are installed:
 - [XAMPP](https://www.apachefriends.org/) (for MySQL)
 - MySQL JDBC Connector
 
----
 
 ## Setup Instructions
 
@@ -35,7 +33,6 @@ To build and run this project, ensure the following are installed:
    - Navigate to `Login` folder
    - Run `LoginTest.java`
 
----
 
 ## Key Features
 
@@ -64,7 +61,6 @@ To build and run this project, ensure the following are installed:
 - Inventory tracking and popularity insights
 - Archive and CRUD support for past orders and user data
 
----
 
 ## Note:
 
