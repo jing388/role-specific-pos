@@ -15,7 +15,7 @@ To build and run this project, ensure the following are installed:
 
 ## Setup Instructions
 
-1. **Clone or download** this repository.
+1. **Clone or download** this repository
 2. **Configure JavaFX** in NetBeans:
    - Go to **Project Properties > Libraries**
    - Add the JavaFX SDK `lib` folder to the **Module Path**
@@ -25,8 +25,8 @@ To build and run this project, ensure the following are installed:
      ```
 
 3. **Set up the database:**
-   - Start MySQL via XAMPP.
-   - Import the provided `.sql` file using **phpMyAdmin**.
+   - Start MySQL via XAMPP
+   - Import the provided `.sql` file using **phpMyAdmin**
    - If you don’t have the schema, request it at: **uy.gwynethbscs2022@gmail.com**
 
 4. **Run the app:**
